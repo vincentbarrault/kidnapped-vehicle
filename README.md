@@ -1,3 +1,7 @@
+## Project
+
+In this project a 2 dimensional particle filter is implemented in C++. This particle filter is given a map and some initial localization information (analogous to what a GPS would provide). At each time step the filter will also get observation and control data.
+
 ## Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
@@ -19,3 +23,4 @@ Alternatively some scripts have been included to streamline this process, these 
 
 ## Result
 
+![Result](https://github.com/vincentbarrault/kidnapped-vehicle/blob/master/img/TurboVNC_unix_1noVNC.gif?raw=true)
