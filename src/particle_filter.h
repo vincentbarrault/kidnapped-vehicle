@@ -81,6 +81,21 @@ public:
 	void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
 	
 	/**
+	 * squareDistance Returns the sum of squared parameters: x*x + y*y
+	 * @param x
+	 * @param y
+	 */
+  	double squareDistance(double x, double y);
+  
+  	/**
+	 * particleWeights Returns particle weights
+	 * @param obs
+	 * @param nearby_neighbor
+	 * @param std_landmark[]
+	 */
+  	double particleWeights(LandmarkObs obs, LandmarkObs nearest_landmark, double std_landmark[]);
+      
+	/**
 	 * updateWeights Updates the weights for each particle based on the likelihood of the 
 	 *   observed measurements. 
 	 * @param sensor_range Range [m] of sensor
