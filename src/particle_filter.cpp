@@ -33,7 +33,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	std_theta = std[2];
 	 
 	// Set the number of particles
-	num_particles = 50;
+	num_particles = 150;
 	
 	// Creates a normal (Gaussian) distribution for x, y and theta for generating sensor noise.
 	normal_distribution<double> dist_x(x, std_x);
@@ -71,11 +71,12 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
   	normal_distribution<double> noise_y(0, std_pos[1]);
   	normal_distribution<double> noise_theta(0, std_pos[2]);
   
-  	// Different equations based on if yaw_rate is zero or not
+  	// Prediction for each particle
   	for (unsigned int i = 0; i < num_particles; ++i) {
     
   		// If yaw_rate is too small (causing division by zero for example), do not consider it in the equation.
-    	if (abs(yaw_rate) < 0.001) {
+      	//cout << "yaw_rate " << yaw_rate << std::endl;
+    	if (abs(yaw_rate) > 0.001) {
             // Update particles with new measurements
             particles[i].x += (velocity/yaw_rate) * (sin(particles[i].theta + (yaw_rate * delta_t)) - sin(particles[i].theta));
             particles[i].y += (velocity/yaw_rate) * (cos(particles[i].theta) - cos(particles[i].theta + (yaw_rate * delta_t)));
@@ -190,8 +191,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],  
                 m++;
             }
           
+          	if(m>=nearby_neighbor.size())
+         		cout << "m is not in the range of nearby_neighbor's size" << endl;
+          
           	// Calculate the particle weight based on standard deviation, observation in map coordinates and coordinates of the nearest landmarks.
           	weight = particleWeights(map_coordinates_obs[l], nearby_neighbor[m], std_landmark);
+          	
+          	if (weight == 0.0)
+            	weight = 0.00001;
+            
             particles[i].weight *= weight;
       	}
   	}
